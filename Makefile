@@ -10,10 +10,10 @@ MIGRATE = @docker-compose exec \
 
 -include .env
 
-init: docker-down-clear docker-pull docker-build docker-up composer-install
+init: init-configs docker-down-clear docker-pull docker-build docker-up composer-install
 
 init-configs:
-	@cp .env.default .env
+	@cp .env.example .env
 
 up: docker-up
 down: docker-down
