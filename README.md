@@ -30,3 +30,5 @@ PHP_SERVICE_NAME в Makefile должен соответствовать наз�
 
 composer
 `make composer-install` и `make composer update` 
+
+## В папке postman_collection лежит импортированная коллекция из одноименного ПО
