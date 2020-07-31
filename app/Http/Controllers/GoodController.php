@@ -33,12 +33,12 @@ class GoodController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Good  $good
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Good $good)
+    public function show($id)
     {
-        return $good = Good::findOrFail($good);
+        return $good = Good::findOrFail($id);
     }
 
 
@@ -51,6 +51,7 @@ class GoodController extends Controller
      */
     public function update(GoodRequest $request, $id)
     {
+
         $good = Good::findOrFail($id);
         $good->fill($request->except(['id']));
         $good->save();

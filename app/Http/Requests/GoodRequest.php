@@ -30,10 +30,9 @@ class GoodRequest extends FormRequest
         */
         //TODO Add number categories validation
         return [
-            'name' => 'required|string',
-            'price' => 'required|numeric|between:0.01,999999.99',
-            'is_published' => 'required|boolean',
-
+            'name' => 'string',
+            'price' => 'numeric|between:0.01,999999.99',
+            'is_published' => 'boolean',
         ];
     }
 }
