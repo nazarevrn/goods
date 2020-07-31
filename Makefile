@@ -6,7 +6,7 @@ COMPOSER = @docker-compose exec \
 MIGRATE = @docker-compose exec \
           		--user www-data \
                   ${PHP_SERVICE_NAME} \
-                  ./php artisan
+                  php artisan
 
 -include .env
 
