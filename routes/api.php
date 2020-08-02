@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GoodController;
+use App\Http\Controllers\GoodsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/goods', 'GoodController');
+Route::apiResource('/goods', 'GoodsController');
+Route::apiResource('/categories', 'CategoriesController');

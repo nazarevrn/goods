@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Good;
-use App\Http\Requests\GoodRequest;
+use App\Categories;
+use App\Http\Requests\CategoriesRequest;
 
-class GoodController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,20 +14,18 @@ class GoodController extends Controller
      */
     public function index()
     {
-        return Good::all();
+        return Categories::all();
     }
-
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\GoodRequest  $request
+     * @param  \App\Http\Requests\CategoriesRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GoodRequest $request)
+    public function store(CategoriesRequest $request)
     {
-        $good = Good::create($request->validated());
-        return $good;
+        return Categories::create($request->validated());
     }
 
     /**
@@ -36,40 +34,38 @@ class GoodController extends Controller
      * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(string $id)
     {
-        return $good = Good::findOrFail($id);
+        return Categories::findOrFail($id);
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\GoodRequest  $request
+     * @param  \App\Http\Requests\CategoriesRequest  $request
      * @param  string  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(GoodRequest $request, $id)
+    public function update(CategoriesRequest $request, string $id)
     {
-
-        $good = Good::findOrFail($id);
-        $good->fill($request->except(['id']));
-        $good->save();
-        return response()->json($good);
+        $category = Categories::findOrFail($id);
+        $category->fill($request->except(['id']));
+        $category->save();
+        return response()->json($category);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Http\Requests\GoodRequest $request
      * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GoodRequest $request, $id)
+    public function destroy(string $id)
     {
-        $good = Good::findOrFail($id);
+        $category = Categories::findOrFail($id);
 
-        if($good->delete()) {
+        if($category->delete()) {
             return response(null, 204);
         }
     }
