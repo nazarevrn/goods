@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Categories;
 use App\Goods;
 use App\Http\Requests\GoodRequest;
 
@@ -14,7 +15,7 @@ class GoodsController extends Controller
      */
     public function index()
     {
-        return Goods::all();
+        return Goods::with('categories')->get();
     }
 
 
@@ -26,7 +27,12 @@ class GoodsController extends Controller
      */
     public function store(GoodRequest $request)
     {
-        return Goods::create($request->validated());
+        $good = new Goods();
+        $good->fill($request->except('id'));
+        $good->save();
+        $good->updateCategories($request->categories);
+        $createdGood = $this->getGoodModel($good->id);
+        return response($createdGood , 201);
     }
 
     /**
@@ -37,7 +43,7 @@ class GoodsController extends Controller
      */
     public function show(string $id)
     {
-        return Goods::findOrFail($id);
+        return $this->getGoodModel($id);
     }
 
 
@@ -50,9 +56,9 @@ class GoodsController extends Controller
      */
     public function update(GoodRequest $request, string $id)
     {
-
-        $good = Goods::findOrFail($id);
-        $good->fill($request->except(['id']));
+        $good = $this->getGoodModel($id);
+        $good->fill($request->except('id'));
+        $good->updateCategories($request->categories);
         $good->save();
         return response()->json($good);
     }
@@ -65,10 +71,23 @@ class GoodsController extends Controller
      */
     public function destroy(string $id)
     {
-        $good = Goods::findOrFail($id);
-
+        $good = $this->getGoodModel($id);
+        $good->updateCategories();
         if($good->delete()) {
             return response(null, 204);
         }
     }
+
+    /**
+     * Return good model
+     * @param string $id
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return Goods
+     */
+    private function getGoodModel(string $id)
+    {
+        return Goods::with('categories')->findOrFail($id);
+    }
+
+
 }

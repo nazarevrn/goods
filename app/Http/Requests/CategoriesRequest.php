@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CategoriesDeleteRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -36,16 +37,17 @@ class CategoriesRequest extends FormRequest
                 return $rules;
             case 'PUT' || 'PATCH':
                 return [
-                    //должен существовать
-                    'id' => 'integer|exists:goods,id',
+                    //должна существовать
+                    'id' => 'integer|exists:categories,id',
                     'name' => [
-                        //должен быть уникальным, за исключением себя же
-                        Rule::unique('goods')->ignore($this->name, 'name')
+                        //должно быть уникальным, за исключением себя же
+                        Rule::unique('categories')->ignore($this->name, 'name')
                     ]
                 ];
             case 'DELETE':
                 return [
-                    'id' => 'required|integer|exists:goods,id'
+                    'id' => 'required|integer|exists:categories,id',
+                    new CategoriesDeleteRule()
                 ];
         }
     }

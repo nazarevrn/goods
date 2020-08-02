@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categories;
 use App\Http\Requests\CategoriesRequest;
+use App\Rules\CategoriesDeleteRule;
 
 class CategoriesController extends Controller
 {
@@ -58,13 +59,15 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Http\Requests\CategoriesRequest  $request
      * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(string $id)
+    public function destroy(CategoriesRequest $request, string $id)
     {
         $category = Categories::findOrFail($id);
-
+        var_dump($request);
+        die;
         if($category->delete()) {
             return response(null, 204);
         }
