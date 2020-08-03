@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Categories;
 use Illuminate\Contracts\Validation\Rule;
 
 class CategoriesDeleteRule implements Rule
@@ -26,9 +27,11 @@ class CategoriesDeleteRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        var_dump(123);
-        return false;
-
+        $category = Categories::with('goods')->findOrFail($value);
+        if (count($category->goods) > 0) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -38,6 +41,6 @@ class CategoriesDeleteRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Category has linked goods.';
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Categories;
 use App\Http\Requests\CategoriesRequest;
 use App\Rules\CategoriesDeleteRule;
+use Illuminate\Support\Facades\Validator;
 
 class CategoriesController extends Controller
 {
@@ -15,7 +16,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return Categories::all();
+        return Categories::with('goods')->get();
     }
 
     /**
@@ -66,8 +67,10 @@ class CategoriesController extends Controller
     public function destroy(CategoriesRequest $request, string $id)
     {
         $category = Categories::findOrFail($id);
-        var_dump($request);
-        die;
+        $category->fill(['id' => $id]);
+        //почему-то для метода DELETE не хочет работать определенный в rules() код
+        $validator = Validator::make(['id' => $id], ['id' => ['integer', 'exists:categories,id',
+                        new CategoriesDeleteRule()]])->validate();
         if($category->delete()) {
             return response(null, 204);
         }

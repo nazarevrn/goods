@@ -17,7 +17,7 @@ class CategoriesCountRule implements Rule
     }
 
     /**
-     * If number of categories between 2, 10 validation passes.
+     * If number of categories between 2 and 10 validation passes.
      *
      * @param  string  $attribute
      * @param  array  $value

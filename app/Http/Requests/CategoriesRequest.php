@@ -46,8 +46,8 @@ class CategoriesRequest extends FormRequest
                 ];
             case 'DELETE':
                 return [
-                    'id' => 'required|integer|exists:categories,id',
-                    new CategoriesDeleteRule()
+                    'id' => ['required|integer|exists:categories,id',
+                        new CategoriesDeleteRule()]
                 ];
         }
     }
