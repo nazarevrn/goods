@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Categories;
 use App\Goods;
 use App\Http\Requests\GoodRequest;
+use App\Http\Requests\SearchRequest;
 
 class GoodsController extends Controller
 {
@@ -87,6 +88,13 @@ class GoodsController extends Controller
     private function getGoodModel(string $id)
     {
         return Goods::with('categories')->findOrFail($id);
+    }
+
+    public function searchGood(SearchRequest $request)
+    {
+        //https://stackoverflow.com/questions/41647092/laravel-5-3-search-function-in-api
+        var_dump([$request->get('id'), $request->get('name'), $request->get('foo')]);
+        die;
     }
 
 

@@ -71,7 +71,7 @@ class CategoriesController extends Controller
         //почему-то для метода DELETE не хочет работать определенный в rules() код
         $validator = Validator::make(['id' => $id], ['id' => ['integer', 'exists:categories,id',
                         new CategoriesDeleteRule()]])->validate();
-        if($category->delete()) {
+        if ($category->delete()) {
             return response(null, 204);
         }
     }
