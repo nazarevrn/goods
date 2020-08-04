@@ -18,6 +18,13 @@ class SearchRequest extends FormRequest
         return [
             'id' => 'integer',
             'name' => 'string',
+            'category_id' => 'integer',
+            'categoryName' => 'string',
+            'price_from' => 'numeric|between:0.01,999999.99',
+            'price_to' => 'numeric|between:0.01,999999.99',
+            //TODO не работает нормально
+            'is_published' => 'boolean',
+            'is_active' => 'boolean'
         ];
     }
 }

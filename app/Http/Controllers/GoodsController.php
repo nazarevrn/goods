@@ -6,6 +6,8 @@ use App\Categories;
 use App\Goods;
 use App\Http\Requests\GoodRequest;
 use App\Http\Requests\SearchRequest;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class GoodsController extends Controller
 {
@@ -92,10 +94,78 @@ class GoodsController extends Controller
 
     public function searchGood(SearchRequest $request)
     {
-        //https://stackoverflow.com/questions/41647092/laravel-5-3-search-function-in-api
-        var_dump([$request->get('id'), $request->get('name'), $request->get('foo')]);
-        die;
-    }
+        //по-хорошему, надо это вынести в отдельный слой, но не успеваю. прошу понять и простить.
+        $result = [];
+        $whereConditions = [];
 
+        $categoryId = $request->get('category_id');
+        if(!is_null($categoryId)) {
+            $result = Goods::whereHas('categories', function (Builder $query) use ($categoryId) {
+                $query->where('id', '=', $categoryId);
+            });
+        }
+
+        $categoryName = $request->get('categoryName');
+        if(!is_null($categoryName)) {
+            //до $categoryName были заданы другие параметры
+            if (!empty($result)) {
+                $result->whereHas('categories', function (Builder $query) use ($categoryName) {
+                    $query->where('name', 'LIKE', "%{$categoryName}%");
+                });
+            } else {
+                $result = Goods::whereHas('categories', function (Builder $query) use ($categoryName) {
+                    $query->where('name', 'LIKE', "%{$categoryName}%");
+                });
+            }
+        }
+
+        $goodName = $request->get('name');
+        if (!is_null($goodName)) {
+            $whereConditions[] = ['goods.name', 'like', "%{$goodName}%"];
+        }
+
+        $priceFrom = $request->get('price_from');
+        if (!is_null($priceFrom)) {
+            $whereConditions[] = ['goods.price', '>=', $priceFrom];
+        }
+
+        $priceTo = $request->get('price_to');
+        if (!is_null($priceTo)) {
+            $whereConditions[] = ['goods.price', '<=', $priceTo];
+        }
+
+        $isPublished = $request->get('is_published');
+        if (!is_null($isPublished)) {
+            $whereConditions[] = ['goods.is_published', '=', $isPublished];
+        }
+
+
+
+        $isActive = $request->get('is_active');
+        if (!is_null($isActive)) {
+            if ($isActive === '0') {
+                //нужны помеченные на удаление
+                if (!empty($result)) {
+                    $result->whereNotNull('goods.deleted_at');
+                } else {
+                    //нужны только удалённые - другие фильтры не применены
+                    $result = Goods::onlyTrashed();
+                }
+            }
+        }
+
+
+        if (!empty($whereConditions)) {
+            if (!empty($result)) {
+                $result->where([$whereConditions]);
+            } else {
+                //по категориям поиска не было
+                $result = Goods::where($whereConditions);
+            }
+        }
+
+        $result = $result->get();
+        return response()->json($result);
+    }
 
 }

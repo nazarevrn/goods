@@ -22,7 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('goods/search', 'GoodsController@searchGood');
 
-//не особо нравятся обрабатываемые url вида /foo/id
 Route::apiResources([
     'goods' => 'GoodsController',
     'categories' => 'CategoriesController',

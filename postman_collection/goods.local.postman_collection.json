@@ -34,7 +34,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\" : \"good_5\",\n    \"price\" : 500,\n    \"is_published\" : 1\n}",
+							"raw": "{\n    \"name\": \"good_6\",\n    \"price\" : 600.06,\n    \"is_published\" : 1,\n    \"categories\" : [1,2]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -73,7 +73,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/goods/5",
+							"raw": "localhost:5000/api/goods/6",
 							"host": [
 								"localhost"
 							],
@@ -81,7 +81,7 @@
 							"path": [
 								"api",
 								"goods",
-								"5"
+								"6"
 							]
 						}
 					},
@@ -94,33 +94,13 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\n{\n\n    \"name\": \"good_5\",\n    \"price\" : 500.06\n}\n",
+							"raw": "\n{\n\n    \"name\": \"good_2\",\n    \"price\" : 200.02,\n    \"categories\" : [1,2]\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "localhost:5000/api/goods/5",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"goods",
-								"5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
 						"url": {
 							"raw": "localhost:5000/api/goods/2",
 							"host": [
@@ -132,6 +112,37 @@
 								"goods",
 								"2"
 							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/goods/6",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"goods",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
 						}
 					},
 					"response": []
@@ -168,7 +179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\" : \"category_1\"\n}",
+							"raw": "{\n    \"name\" : \"category_3\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -207,7 +218,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/categories/2",
+							"raw": "localhost:5000/api/categories/1",
 							"host": [
 								"localhost"
 							],
@@ -215,7 +226,7 @@
 							"path": [
 								"api",
 								"categories",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -228,7 +239,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\n{\n    \"name\": \"caterory_1_new\"\n}\n",
+							"raw": "\n{\n    \"name\": \"caterory_1\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
