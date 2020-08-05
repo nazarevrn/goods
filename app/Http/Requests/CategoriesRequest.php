@@ -26,29 +26,22 @@ class CategoriesRequest extends FormRequest
      */
     public function rules()
     {
-        //TODO Add number categories validation
-        $rules = [
-            'name' => 'required|string',
-        ];
+        $method = $this->getMethod();
+        $validationRules = [];
 
-        switch ($this->getMethod())
-        {
-            case 'POST':
-                return $rules;
-            case 'PUT' || 'PATCH':
-                return [
-                    //должна существовать
-                    'id' => 'integer|exists:categories,id',
-                    'name' => [
+        if ($method === 'POST') {
+            $validationRules = ['name' => 'required|string'];
+        }
+
+        if ($method === 'PUT' || $method === 'PATCH') {
+            $validationRules = [
+                'id' => 'integer|exists:categories,id',
+                'name' =>
                         //должно быть уникальным, за исключением себя же
                         Rule::unique('categories')->ignore($this->name, 'name')
-                    ]
-                ];
-            case 'DELETE':
-                return [
-                    'id' => ['required|integer|exists:categories,id',
-                        new CategoriesDeleteRule()]
-                ];
+            ];
         }
+
+        return $validationRules;
     }
 }

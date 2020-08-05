@@ -37,9 +37,7 @@ class GoodRequest extends FormRequest
             'categories' => [
                 'required',
                 //array|between|2,10 не работает, пришлось выкручиваться
-                new CategoriesCountRule(),
-                //TODO сделать проверку одним запросом
-            'categories.*' => 'exists:categories,id']
+                new CategoriesCountRule()]
         ];
 
 
