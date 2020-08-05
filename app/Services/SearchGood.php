@@ -80,15 +80,6 @@ class SearchGood
                 }
             }
         }
-
-        if (!empty($this->whereConditions)) {
-            if (!empty($this->searchRequest)) {
-                $this->searchRequest->where([$this->whereConditions]);
-            } else {
-                $this->searchRequest = Goods::where($this->whereConditions);
-            }
-        }
-
     }
 
     /**
@@ -113,7 +104,6 @@ class SearchGood
                         $searchValue);
             });
         } else {
-            //TODO add abstract method
             $this->searchRequest = $this->searchRequest->whereHas('categories',
                 function (Builder $query) use ($searchFieldParams,
                     $searchValue) {
@@ -167,7 +157,6 @@ class SearchGood
                 }
             }
         }
-
     }
 
     /**
